@@ -16,11 +16,13 @@ import java.io.IOException;
  */
 public class MonitorHttpServer {
 
+    public int httpPort = Integer.valueOf(System.getProperty("httpServer.port", "9000"));
 
     public  void init() throws Exception {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(httpPort), 0);
         server.createContext("/monitor", new MyHandler());
         server.setExecutor(null); // creates a default executor
+        System.out.println("HTTP Server started on port: " + httpPort);
         server.start();
     }
 

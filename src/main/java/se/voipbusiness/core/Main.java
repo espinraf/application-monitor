@@ -11,10 +11,7 @@ import java.net.UnknownHostException;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
-        String udpPort = System.getProperty("udp.port");
-        System.out.println("UDP Port: " + udpPort);
-
+        
         // UDP Server, this could be replace with a TCP Server
         MonitorUDPServer s = new MonitorUDPServer();
         s.start();

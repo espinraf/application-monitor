@@ -9,12 +9,14 @@ import java.net.*;
 public class MonitorUDPServer extends Thread{
 
     public Monitor mon = null;
+    public int udpPort = Integer.valueOf(System.getProperty("udpServer.port", "9090"));
 
     @Override
     public void run(){
         try
         {
-            DatagramSocket serverSocket = new DatagramSocket(9090);
+            DatagramSocket serverSocket = new DatagramSocket(udpPort);
+            System.out.println("UDP Server started on port: " + udpPort);
 
             byte[] receiveData = new byte[1024];
             byte[] sendData  = new byte[1024];
@@ -57,7 +59,7 @@ public class MonitorUDPServer extends Thread{
         }
         catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("UDP Port 9090 is occupied.");
+            System.out.println("UDP Server Error.");
             //System.exit(1);
         }
     }
