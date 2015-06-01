@@ -19,8 +19,6 @@ function connect() {
 		console.log(event.data);
 	}
 	socket.onmessage = function (event) {
-		//console.log(event.data);
-		console.log('event received');
 		createOrUpdateWidget(merge(event.data));
 		if (selectedApp) {
 			replacePropertyTable(selectedApp);
@@ -41,7 +39,6 @@ function merge(data) {
 			for (var j = 0; j < storedApp.data.length; j++) {
 				if (storedApp.data[j].name == updateApp.data[i].name) {
 					storedApp.data[j].value = updateApp.data[i].value;
-					console.log('merged ' + storedApp.data[j].name + ' to ' + storedApp.data[j].value);
 					found = true;
 					break;
 				}
@@ -179,77 +176,100 @@ function checkPropertiesRanges(app) {
 }
 
 function replacePropertyTable(app) {
-	var table = createElement('div', null, 'r');
-	var bar = createElement('div', null, 'pb');
-	var title = createElement('p', null, 'b');
-	title.innerHTML = 'Properties for application <b>' + app.Name + '</b>';
-	bar.appendChild(title);
-	table.appendChild(bar);
-	var d; var p;
-	d = createElement('div', null, 'ph');
-	p = createElement('p', null, 'h', 'Property');
-	d.appendChild(p);
-	table.appendChild(d);
-	d = createElement('div', null, 'vh');
-	p = createElement('p', null, 'h', 'Value');
-	d.appendChild(p);
-	table.appendChild(d);
-	d = createElement('div', null, 'pminh');
-	p = createElement('p', null, 'h', 'Min');
-	d.appendChild(p);
-	table.appendChild(d);
-	d = createElement('div', null, 'pmaxh');
-	p = createElement('p', null, 'h', 'Max');
-	d.appendChild(p);
-	table.appendChild(d);
-	createProperties(table, app);
-	// replace existing table
-	var existingTable = document.getElementsByClassName('r')[0];
-	existingTable.parentNode.replaceChild(table, existingTable);
-}
-
-function createProperties(table, app) {
-	var d; var p; var c; var input;
+	
+	var div   = createElement(  'div', null,             'r');
+	var table = createElement('table', null,    'properties');
+	var tr    = createElement(   'tr');
+	var top   = createElement(   'th', null, 'propertiestop');
+	top.colSpan   = '5';
+	top.innerHTML = 'Properties for application <b>' + app.Name + '</b>';
+	tr.appendChild(top)
+	table.appendChild(tr);
+	div.appendChild(table);
+	
+	var th; var td; var d; var input;
+	
+	tr = createElement('tr');
+	th = createElement('th', null, 'properties');
+	tr.appendChild(th);
+	th = createElement('th', null, 'properties', 'Property');
+	tr.appendChild(th);
+	th = createElement('th', null, 'properties', 'Value');
+	th.colSpan = 3
+	tr.appendChild(th);
+	table.appendChild(tr);
+	
 	for (var i = 0; i < app.data.length; i++) {
-		d = createElement('div', null, 'p');
-		p = createElement('p', null, 'v', app.data[i].name);
+		tr = createElement('tr');
+		td = createElement('td', null, 'Properties');
 		var style = 'check';
 		if (app.data[i].show == 'true') {
 			style = 'checks';
 		}
-		c = createElement('div', app.Id + '-pcb-' + i, style);
-		c.setAttribute('onclick', 'selectbox(this);');
-		d.appendChild(p); p.appendChild(c);
-		table.appendChild(d);
-		d = createElement('div', null, 'v');
-		p = createElement('p', null, 'v', app.data[i].value);
-		d.appendChild(p);
-		table.appendChild(d);
-		d = createElement('div', null, 'pmin');
-		p = createElement('p', null, 'mi');
-		if (/*app.data[i].type == 'C' ||*/ app.data[i].type == 'V') {
-			input = createElement('input', app.Id + '-pmin-' + app.data[i].name);
+		d = createElement('div', app.Id + '-pcb-' + i, style);
+		d.setAttribute('onclick', 'selectbox(this);');
+		td.appendChild(d);
+		tr.appendChild(td);
+		
+		td = createElement('td', null, 'properties',app.data[i].name);
+		tr.appendChild(td);
+		
+		td = createElement('td', null, 'propertiesvalue',app.data[i].value);
+		tr.appendChild(td);
+		
+		if (app.data[i].type == 'V') {
+			td = createElement('td', null, 'propertiesvalue');
+			td.style.width='15%';
+			input = createElement('input', app.Id + '-pmin-' + app.data[i].name, 'properties');
+			input.title = 'Min';
 			if (app.ranges) {
-				input.value = app.ranges[app.Id + '-pmin-' + app.data[i].name];
+				if (app.ranges[app.Id + '-pmin-' + app.data[i].name]) {
+					input.value = app.ranges[app.Id + '-pmin-' + app.data[i].name];
+				}
 			}
 			input.setAttribute('onkeyup', 'editRange(this);');
-			p.appendChild(input);
-		}
-		d.appendChild(p);
-		table.appendChild(d);
-		d = createElement('div', null, 'pmax');
-		p = createElement('p', null, 'mi');
-		if (/*app.data[i].type == 'C' || */app.data[i].type == 'V') {
-			input = createElement('input', app.Id + '-pmax-' + app.data[i].name);
+			td.appendChild(input);
+			tr.appendChild(td);
+			td = createElement('td', null, 'propertiesvalue');
+			td.style.width='15%';
+			input = createElement('input', app.Id + '-pmax-' + app.data[i].name, 'properties');
+			input.title = 'Max';
 			if (app.ranges) {
-				input.value = app.ranges[app.Id + '-pmax-' + app.data[i].name];
+				if (app.ranges[app.Id + '-pmax-' + app.data[i].name]) {
+					input.value = app.ranges[app.Id + '-pmax-' + app.data[i].name];
+				}
 			}
 			input.setAttribute('onkeyup', 'editRange(this);');
-			p.appendChild(input);
+			td.appendChild(input);
+			tr.appendChild(td);
+		} else if (app.data[i].type == 'S') {
+			td = createElement('td', null, 'propertiesvalue');
+			td.colSpan = 2;
+			input = createElement('input', app.Id + '-pattern-' + app.data[i].name, 'properties');
+			input.title = 'Pattern';
+			if (app.ranges) {
+				if (app.ranges[app.Id + '-pattern-' + app.data[i].name]) {
+					input.value = app.ranges[app.Id + '-pattern-' + app.data[i].name]
+				}
+			}
+			input.setAttribute('onkeyup', 'editRange(this);');
+			td.appendChild(input);
+			tr.appendChild(td);
+		} else {
+			td = createElement('td', null, 'propertiesvalue');
+			td.style.width='15%';
+			tr.appendChild(td);
+			td = createElement('td', null, 'propertiesvalue');
+			td.style.width='15%';
+			tr.appendChild(td);
 		}
-		d.appendChild(p);
-		table.appendChild(d);
+		
+		table.appendChild(tr);
 	}
+	
+	// replace existing table
+	var existingTable = document.getElementsByClassName('r')[0];
+	existingTable.parentNode.replaceChild(div, existingTable);
 }
 	
 function select(element) {
