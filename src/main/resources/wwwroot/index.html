@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Application Monitor</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="monitor.js"></script>
+	</head>
+	<body>
+		
+		<div class="top">
+			<div class="topl">
+				<div  id="hoy" style="margin-left: 8px">&nbsp;</div>
+			</div>
+			<script>
+				setInterval(function() {
+					var today = new Date();
+					document.getElementById('hoy').innerHTML = today
+				}, 1000);
+			</script>
+			<div class="topc">Application Monitor</div>
+			<div class="topr">&nbsp;</div>
+		</div>
+
+		<div class="l" id="widgetBoard"></div>
+		<script>
+		</script>
+		<div class="r">
+			<div id="bar" class="pb"><p class="b">No application selected</p></div>
+			<div class="ph"><p class="h">Property</p></div>
+			<div class="vh"><p class="h">Value</p></div>
+			<div class="pminh"><p class="h">Min</p></div>
+			<div class="pmaxh"><p class="h">Max</p></div>
+		</div>
+		<script>
+			init();	
+		</script>
+	</body>
+</html>
