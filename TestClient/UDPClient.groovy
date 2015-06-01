@@ -8,11 +8,13 @@ def rannum = 1;
 def rannum2 = 2;
 while (true){
     def username = System.console().readLine 'Enter to send Data'
-    println "Hello "
-    rannum = Math.abs(new Random().nextInt()) % 20 + 1
-    data1 = """
+    println "Sending data.......... "
+
+    for (int i = 0 ; i < 10 ; i++) {
+        rannum = Math.abs(new Random().nextInt()) % 20 + 1
+        data1 = """
 {
-"Id" : "i001",
+"Id" : "i00${i + 1}",
 "Name" : "Customer",
 "Type" : "JMS",
 "Status" : "OK",
@@ -27,13 +29,13 @@ while (true){
 ]
 }
 """
-    data = data1.bytes
-    packet = new DatagramPacket(data, data.length, addr, port)
-    socket.send(packet)
-    rannum2 = Math.abs(new Random().nextInt()) % 10 + 1
-    data2 = """
+        data = data1.bytes
+        packet = new DatagramPacket(data, data.length, addr, port)
+        socket.send(packet)
+        rannum2 = Math.abs(new Random().nextInt()) % 10 + 1
+        data2 = """
 {
-"Id" : "i002",
+"Id" : "i00${i + 1}",
 "Name" : "BankID",
 "Type" : "WS",
 "Status" : "OK",
@@ -48,7 +50,8 @@ while (true){
 ]
 }
 """
-    data = data2.bytes
-    packet = new DatagramPacket(data, data.length, addr, port)
-    socket.send(packet)
+        data = data2.bytes
+        packet = new DatagramPacket(data, data.length, addr, port)
+        socket.send(packet)
+    }
 }
