@@ -109,10 +109,8 @@ public class MonitorDB {
         long t1 = Long.valueOf(jodb.get("time").asString());
         // Add time to the Json Msg
         long t2 = System.currentTimeMillis();
-        double res = (t2 - t1)/1000;
-        System.out.println("T2: " + t2 + " T1: " + t1);
-        System.out.println("Diff TIME: " + res);
-        if (res <= 0.0){
+        Float res = new Float((t2 - t1) / 1000.0);
+        if (res == 0.0){
             tps = 0.0;
         }
         else {
