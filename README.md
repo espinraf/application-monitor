@@ -1,5 +1,5 @@
-# Integrations Monitor
-Simple Integrations Monitor
+# Application Monitor
+Simple Application Monitor
 
 
 ##Run
@@ -12,6 +12,6 @@ gradle fatJar
 
 ##Run Fat jar
 
-java -jar build/libs/integrations_monitor-all-1.0.jar
+java -jar build/libs/application-monitor-all-1.0.jar
  
  
