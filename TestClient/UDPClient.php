@@ -8,7 +8,7 @@
 error_reporting(~E_WARNING);
 
 $server = '127.0.0.1';
-$port = 9999;
+$port = 9090;
 
 if(!($sock = socket_create(AF_INET, SOCK_DGRAM, 0)))
 {
