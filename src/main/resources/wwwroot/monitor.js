@@ -153,24 +153,34 @@ function checkPropertiesRanges(app) {
 		return;
 	}
 	for (var i = 0; i < app.data.length; i++) {
-		var min = app.ranges[app.Id + '-pmin-' + app.data[i].name];
-		var max = app.ranges[app.Id + '-pmax-' + app.data[i].name];
-		var v = parseFloat(app.data[i].value);
-		if (min) {
-			min = parseFloat(min);
-			if (v < min) {
-				app.Status = 'NOK';
+		if (app.data[i].type == 'V') {
+			var min = app.ranges[app.Id + '-pmin-' + app.data[i].name];
+			var max = app.ranges[app.Id + '-pmax-' + app.data[i].name];
+			var v = parseFloat(app.data[i].value);
+			if (min) {
+				min = parseFloat(min);
+				if (v < min) {
+					app.Status = 'NOK';
+					break;
+				}
+			}
+			if (max) {
+				max = parseFloat(max);
+				if (v > max) {
+					app.Status = 'NOK';
+					break;
+				}
+			}
+			app.Status = 'OK';
+		} else if (app.data[i].type == 'S') {
+			var pattern = app.ranges[app.Id + '-pattern-' + app.data[i].name];
+			
+			if (pattern != null && pattern.length > 0 && app.data[i].value.indexOf(pattern) > -1) {
+				app.Status = 'NOK'
 				break;
 			}
+			app.Status = 'OK';
 		}
-		if (max) {
-			max = parseFloat(max);
-			if (v > max) {
-				app.Status = 'NOK';
-				break;
-			}
-		}
-		app.Status = 'OK';
 	}
 	
 }
