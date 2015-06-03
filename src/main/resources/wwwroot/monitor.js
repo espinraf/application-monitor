@@ -169,7 +169,7 @@ function updateWidget(app) {
 				fr = app.data[i].value;
 			}
 		}
-		drawSuccessRate(canvas.getContext('2d'), sr, fr, 340, 70, 60, 30);
+		drawSuccessRate(canvas.getContext('2d'), sr, fr, 330, 70, 50, 40);
 	}
 }
 
@@ -425,14 +425,14 @@ function drawSuccessRate(ctx, successCount, failCount, x, y, outerRadius, innerR
 	ctx.moveTo(x, y);
 	ctx.arc(x, y, outerRadius, startAngle , angle);
 	ctx.closePath();
-	ctx.fillStyle = '#44CC44';
+	ctx.fillStyle = '#44cc44';
 	ctx.fill();
 		
 	ctx.beginPath();
 	ctx.moveTo(x, y);
 	ctx.arc(x, y, outerRadius, angle, startAngle);
 	ctx.closePath();
-	ctx.fillStyle = '#CC4444';
+	ctx.fillStyle = '#cc4444';
 	ctx.fill();
 			
 	ctx.globalCompositeOperation = 'destination-out';
@@ -444,6 +444,13 @@ function drawSuccessRate(ctx, successCount, failCount, x, y, outerRadius, innerR
 	ctx.fill();
 	
 	ctx.globalCompositeOperation = 'source-over';
+	
+	ctx.beginPath();
+	ctx.moveTo(252, 0);
+	ctx.lineTo(252, 160);
+	ctx.closePath();
+	ctx.strokeStyle = '#aaaaaa';
+	ctx.stroke();
 	
 	ctx.font = '9pt sans-serif'
 	ctx.textAlign = 'center';
