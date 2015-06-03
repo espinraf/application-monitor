@@ -83,11 +83,25 @@ function createOrUpdateWidget(app) {
 	updateWidget(app);
 }
 
+function hasSuccessRate(app) {
+	for (var i = 0; i < app.data.length; i++) {
+		if (app.data[i].type == 'SF' || app.data[i].type == 'FR') {
+			return true;
+		}
+	}
+	return false;
+}
+
 function createWidget(app) {
-	var widget = createElement('div', app.Id, 'w');
+	
+	var hs = hasSuccessRate(app);
+	
+	var ws = hs ? 'ww' : 'w';
+	
+	var widget = createElement('div', app.Id, ws);
 	var canvas = document.createElement('canvas');
 	canvas.id = app.Id + '-canvas';
-	canvas.width = 240;	canvas.height = 160;
+	canvas.width = hs ? 400 : 240;	canvas.height = 160;
 	canvas.style.zIndex = 0; canvas.style.position = 'absolute';
 	widget.appendChild(canvas);
 	widget.appendChild(createElement('p', app.Id + '-name', 'name'));
@@ -104,8 +118,8 @@ function createWidgetPropertyTable(app) {
 	var row;
 	for (var i = 0; i < 3; i++) {
 		row = createElement('tr');
-		row.appendChild(createElement('td', app.Id + '-wpk-' + i, 'key'));
-		row.appendChild(createElement('td', app.Id + '-wpv-' + i, ''));
+		row.appendChild(createElement('td', app.Id + '-wpk-' + i, 'p'));
+		row.appendChild(createElement('td', app.Id + '-wpv-' + i, 'v'));
 		table.appendChild(row);
 	}
 	return table;
@@ -145,6 +159,18 @@ function updateWidget(app) {
 	var canvas = document.getElementById(app.Id + '-canvas');
 	checkPropertiesRanges(app);
 	drawStatus(canvas.getContext('2d'), app.Status);
+	if (hasSuccessRate(app)) {
+		
+		var sr;	var fr;
+		for (var i = 0; i < app.data.length; i++) {
+			if (app.data[i].type == 'SR') {
+				sr = app.data[i].value;
+			} else if (app.data[i].type == 'FR') {
+				fr = app.data[i].value;
+			}
+		}
+		drawSuccessRate(canvas.getContext('2d'), sr, fr, 340, 70, 60, 30);
+	}
 }
 
 function checkPropertiesRanges(app) {
@@ -283,11 +309,20 @@ function replacePropertyTable(app) {
 }
 	
 function select(element) {
+	
 	var widgets = document.getElementsByClassName('ws');
 	for (var i = 0; i < widgets.length; i++) {
 		widgets[i].className = 'w'
 	}
-	element.className = 'ws';
+	widgets = document.getElementsByClassName('wws');
+	for (var i = 0; i < widgets.length; i++) {
+		widgets[i].className = 'ww'
+	}
+	if (element.className == 'ww') {
+		element.className = 'wws';
+	} else if (element.className == 'w') {
+		element.className = 'ws';
+	}
 	if (selectedApp) {
 		localStorage.setItem(selectedApp.Id, JSON.stringify(selectedApp));
 	}
@@ -354,7 +389,7 @@ function drawStatus(ctx, status) {
 		return;
 	}
 	
-	ctx.clearRect(0,0,240,160);
+	ctx.clearRect(0,0,360,160);
 	
 	ctx.beginPath();
 	ctx.globalCompositeOperation = 'source-over'
@@ -376,3 +411,45 @@ function drawStatus(ctx, status) {
 	ctx.closePath();
 	ctx.fill();
 }
+
+function drawSuccessRate(ctx, successCount, failCount, x, y, outerRadius, innerRadius) {
+	var totalCount = parseInt(successCount) + parseInt(failCount);
+	var startAngle = -Math.PI / 2;
+	var angle = startAngle + (parseInt(successCount) / totalCount) * 2 * Math.PI;
+	
+	console.log('tc: ' + totalCount + ', sa: ' + startAngle + ', a: ' + angle + ', x:' + x + ', y: ' + y);
+	
+	ctx.globalCompositeOperation = 'source-over';
+	
+	ctx.beginPath();
+	ctx.moveTo(x, y);
+	ctx.arc(x, y, outerRadius, startAngle , angle);
+	ctx.closePath();
+	ctx.fillStyle = '#44CC44';
+	ctx.fill();
+		
+	ctx.beginPath();
+	ctx.moveTo(x, y);
+	ctx.arc(x, y, outerRadius, angle, startAngle);
+	ctx.closePath();
+	ctx.fillStyle = '#CC4444';
+	ctx.fill();
+			
+	ctx.globalCompositeOperation = 'destination-out';
+	ctx.beginPath();
+	ctx.moveTo(x, y);
+	ctx.arc(x, y, innerRadius, 0, 2 * Math.PI);
+	ctx.closePath();
+	ctx.fillStyle = '#ffffff';
+	ctx.fill();
+	
+	ctx.globalCompositeOperation = 'source-over';
+	
+	ctx.font = '9pt sans-serif'
+	ctx.textAlign = 'center';
+	ctx.fillStyle = '#000000';
+	ctx.textBaseline = 'middle';
+	ctx.fillText((successCount / totalCount * 100).toFixed(1) + '%', x, y);
+	ctx.fillText('Success Rate', x, y + 75);
+}
+
