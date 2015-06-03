@@ -417,9 +417,9 @@ function drawSuccessRate(ctx, successCount, failCount, x, y, outerRadius, innerR
 	var startAngle = -Math.PI / 2;
 	var angle = startAngle + (parseInt(successCount) / totalCount) * 2 * Math.PI;
 	
-	console.log('tc: ' + totalCount + ', sa: ' + startAngle + ', a: ' + angle + ', x:' + x + ', y: ' + y);
-	
 	ctx.globalCompositeOperation = 'source-over';
+	
+	ctx.clearRect(240,0,400,160);
 	
 	ctx.beginPath();
 	ctx.moveTo(x, y);
