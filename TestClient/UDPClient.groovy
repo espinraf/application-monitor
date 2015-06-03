@@ -14,7 +14,7 @@ while (true){
         rannum = Math.abs(new Random().nextInt()) % 20 + 1
         data1 = """
 {
-"Id" : "i00${i + 1}",
+"Id" : "i01${i + 1}",
 "Name" : "Customer",
 "Type" : "JMS",
 "Status" : "OK",
@@ -32,18 +32,18 @@ while (true){
         data = data1.bytes
         packet = new DatagramPacket(data, data.length, addr, port)
         socket.send(packet)
-        rannum2 = Math.abs(new Random().nextInt()) % 10 + 1
+        rannum2 = Math.abs(new Random().nextInt()) % 4 + 1
         data2 = """
 {
-"Id" : "i00${i + 1}",
+"Id" : "i02${i + 1}",
 "Name" : "BankID",
 "Type" : "WS",
 "Status" : "OK",
 
 "data":
 [
-{ "name" : "msgRecv", "value" : "1000", "type" : "C" },
-{ "name": "msgSend", "value" : "5000", "type" : "C" },
+{ "name" : "msgRecv", "value" : "${rannum}", "type" : "SR" },
+{ "name": "msgSend", "value" : "${rannum2}", "type" : "FR" },
 { "name": "Errors", "value" : "${rannum2}", "type" : "V" },
 { "name": "ErrorXSLT", "value" : "false", "type" : "B" },
 { "name": "LastError", "value" : "Time Out", "type" : "S" }

@@ -159,7 +159,7 @@ public class MonitorDB {
                 valuedb = jodb.get("value").asString();
 
                 // Check new Msg type in case the type has been updated
-                if(type.equals("C")){
+                if(type.equals("C") || type.equals("SR")  || type.equals("FR")){
                     Integer c = Integer.parseInt(value);
                     Integer cdb = Integer.parseInt(valuedb);
                     cdb = cdb + c;
