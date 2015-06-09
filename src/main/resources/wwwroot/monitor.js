@@ -3,6 +3,8 @@ var socket = null;
 
 var selectedApp = null;
 
+var logArray = [];
+
 function connect() {
 	var host = document.location.hostname;
 	if (!host) {
@@ -19,15 +21,19 @@ function connect() {
 		console.log(event.data);
 	}
 	socket.onmessage = function (event) {
-		createOrUpdateWidget(merge(event.data));
-		if (selectedApp) {
-			replacePropertyTable(selectedApp);
+		var app = JSON.parse(event.data);
+		if (app.Id == 'LOG') {
+			replaceLogger(app);
+		} else {
+			createOrUpdateWidget(merge(app));
+			if (selectedApp) {
+				replacePropertyTable(selectedApp);
+			}
 		}
 	}
 }
 
-function merge(data) {
-	var updateApp = JSON.parse(data);
+function merge(updateApp) {
 	var storedApp = localStorage.getItem(updateApp.Id);
 	if (storedApp != null) {
 		storedApp = JSON.parse(storedApp);
@@ -53,7 +59,7 @@ function merge(data) {
 		}
 		return storedApp;
 	} else {
-		localStorage.setItem(updateApp.Id, data);
+		localStorage.setItem(updateApp.Id, JSON.stringify(updateApp));
 		return updateApp;
 	}
 }
@@ -213,7 +219,6 @@ function checkPropertiesRanges(app) {
 
 function replacePropertyTable(app) {
 	
-	var div   = createElement(  'div', null,             'r');
 	var table = createElement('table', null,    'properties');
 	var tr    = createElement(   'tr');
 	var top   = createElement(   'th', null, 'propertiestop');
@@ -221,7 +226,6 @@ function replacePropertyTable(app) {
 	top.innerHTML = 'Properties for application <b>' + app.Name + '</b>';
 	tr.appendChild(top)
 	table.appendChild(tr);
-	div.appendChild(table);
 	
 	var th; var td; var d; var input;
 	
@@ -304,8 +308,26 @@ function replacePropertyTable(app) {
 	}
 	
 	// replace existing table
-	var existingTable = document.getElementsByClassName('r')[0];
-	existingTable.parentNode.replaceChild(div, existingTable);
+	var existingTable = document.getElementsByClassName('properties')[0];
+	existingTable.parentNode.replaceChild(table, existingTable);
+}
+
+function replaceLogger(app) {
+	if (logArray.length == 15) {
+		logArray.shift();
+	}
+	logArray.push(app.Status);
+	console.log(logArray);
+	
+	var entries = document.getElementById('logentries');
+	while (entries.firstChild) {
+		entries.removeChild(entries.firstChild);
+	}
+
+	for (var i = 0; i < logArray.length; i++) {
+		var entry = createElement('div', null, 'logentry', logArray[i]);
+		entries.appendChild(entry);
+	}
 }
 	
 function select(element) {
