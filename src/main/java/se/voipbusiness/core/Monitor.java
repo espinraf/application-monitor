@@ -36,6 +36,11 @@ public class Monitor {
 
     }
 
+    public void logMsg(String msg) {
+        String jm = "{\"Id\" : \"LOG\", \"Name\" : \"LOG\", \"Type\" : \"LOG\", \"Status\" : \"" + msg + "\"}";
+        wsServer.sendToAll(jm);
+    }
+
     public void routeToUdpServer(String data){
         System.out.println("Hola !");
     }

@@ -30,13 +30,13 @@ public class MonitorWebSocket extends WebSocketServer {
     @Override
     public void onOpen( WebSocket conn, ClientHandshake handshake ) {
         mon.updateWebpage(conn);
-        System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " New connection established !");
+        mon.logMsg(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " New connection established !");
     }
 
     @Override
     public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
         //this.sendToAll( conn + " has left the room!" );
-        System.out.println( conn + " Connection ended!" );
+        mon.logMsg( conn + " Connection ended!" );
     }
 
     @Override
