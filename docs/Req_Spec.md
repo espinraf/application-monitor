@@ -60,11 +60,34 @@ new Average = (last Value/Average + new Value) / 2
 
 In this case shall be posible to enter a string which can be contained in the String. in the case that is reported, then the status should be RED
 
+* Type "T" transactions per second
 
+This will be calculated with the time difference between 2 messages: 1 /(t2 - t1) , t1 och t2 in seconds
+
+
+* Type "SR" and "FR" (Success Rate and Failure Rate)
+
+This type is a combination of two messages, FR is the number of succeed transactions and FR the number of failed transactions. The web page will show a circle with the porcent of success and failure.
+ 
+ The Rate shall be calculated:
+ 
+ % success = no of success * 100 / (no of success + no of failure) 
 	
 7) In the web page the application shall be shown using a Circle or User Image in PNG format.
 
 8) When the user clicks on a application, it shall be shown a window with the User defined parameters
+
+9) Log messages from Monitor server to the Web page
+
+the message format will be :
+
+	{
+		"Id" : "LOG", # Mandatory
+		"Name" : "LOG", # Mandatory
+		"Type" : "LOG" # Mandatory
+		"Status" : "<MESSAGE TO LOG>", # Mandatory 
+	  
+	}
 
 
 ###Non-functional Requirements
