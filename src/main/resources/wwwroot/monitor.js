@@ -5,6 +5,8 @@ var selectedApp = null;
 
 var logArray = [];
 
+var playAlarm = false;
+
 function connect() {
 	var host = document.location.hostname;
 	if (!host) {
@@ -317,7 +319,6 @@ function replaceLogger(app) {
 		logArray.shift();
 	}
 	logArray.push(app.Status);
-	console.log(logArray);
 	
 	var entries = document.getElementById('logentries');
 	while (entries.firstChild) {
@@ -407,6 +408,7 @@ function drawStatus(ctx, status) {
 		x = 240; y = 0;
 		r1 = 56; r2 = 40; r3 = 32;
 		color = '#CC4444';
+		document.getElementById('audio').play();
 	} else {
 		return;
 	}
