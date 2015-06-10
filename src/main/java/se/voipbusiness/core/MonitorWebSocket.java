@@ -36,7 +36,7 @@ public class MonitorWebSocket extends WebSocketServer {
     @Override
     public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
         //this.sendToAll( conn + " has left the room!" );
-        mon.logMsg( conn + " Connection ended!" );
+        mon.logMsg( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " Connection ended!" );
     }
 
     @Override
@@ -54,10 +54,11 @@ public class MonitorWebSocket extends WebSocketServer {
 
     @Override
     public void onError( WebSocket conn, Exception ex ) {
-        ex.printStackTrace();
+
         if( conn != null ) {
-            // some errors like port binding failed may not be assignable to a specific websocket
+            mon.logMsg("ERROR from: " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
         }
+        mon.logMsg(ex.getMessage());
     }
 
     public void startDebug() throws InterruptedException , IOException {

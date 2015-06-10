@@ -44,6 +44,22 @@ public class MonitorUDPServer extends Thread{
 
                 mon.routeToWsServer(sentence);
 
+            }
+
+        }
+        catch (Exception ex) {
+            if (mon != null) {
+                mon.logMsg("UDP Server Error: \n");
+                mon.logMsg(ex.getMessage());
+            }
+            else {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+}
+
 /*                String capitalizedSentence = sentence.toUpperCase();
 
                 sendData = capitalizedSentence.getBytes();
@@ -54,14 +70,3 @@ public class MonitorUDPServer extends Thread{
 
                 serverSocket.send(sendPacket);
 */
-            }
-
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("UDP Server Error.");
-            //System.exit(1);
-        }
-    }
-
-}
