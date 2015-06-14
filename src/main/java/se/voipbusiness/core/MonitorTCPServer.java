@@ -23,7 +23,7 @@ public class MonitorTCPServer {
         }
         catch (IOException ex) {
             if (mon != null) {
-                mon.logMsg("UDP Server Error: \n");
+                mon.logMsg("TCP Server Error: \n");
                 mon.logMsg(ex.getMessage());
             }
             else {
@@ -41,10 +41,11 @@ public class MonitorTCPServer {
                 BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 
                 data = inFromClient.readLine();
+                mon.routeToWsServer(data);
             }
             catch (IOException ex) {
                 if (mon != null) {
-                    mon.logMsg("UDP Server Error: \n");
+                    mon.logMsg("TCP Server Error: \n");
                     mon.logMsg(ex.getMessage());
                 }
                 else {
