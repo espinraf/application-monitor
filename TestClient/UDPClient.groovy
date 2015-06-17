@@ -54,4 +54,25 @@ while (true){
         packet = new DatagramPacket(data, data.length, addr, port)
         socket.send(packet)
     }
+
+    data3 = """
+{
+"Id" : "i0200",
+"Name" : "SRFR",
+"Type" : "WS",
+"Status" : "OK",
+
+"data":
+[
+{ "name" : "msgRecv", "value" : "5", "type" : "SR" },
+{ "name": "msgSend", "value" : "1000", "type" : "S" },
+{ "name": "Errors", "value" : "1", "type" : "S" },
+{ "name": "ErrorXSLT", "value" : "false", "type" : "B" },
+{ "name": "LastError", "value" : "Time Out", "type" : "S" }
+]
+}
+"""
+    data = data3.bytes
+    packet = new DatagramPacket(data, data.length, addr, port)
+    socket.send(packet)
 }
