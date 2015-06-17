@@ -93,7 +93,7 @@ function createOrUpdateWidget(app) {
 
 function hasSuccessRate(app) {
 	for (var i = 0; i < app.data.length; i++) {
-		if (app.data[i].type == 'SF' || app.data[i].type == 'FR') {
+		if (app.data[i].type == 'SR' || app.data[i].type == 'FR') {
 			return true;
 		}
 	}
@@ -169,7 +169,7 @@ function updateWidget(app) {
 	drawStatus(canvas.getContext('2d'), app.Status);
 	if (hasSuccessRate(app)) {
 		
-		var sr;	var fr;
+		var sr = 0;	var fr = 0;
 		for (var i = 0; i < app.data.length; i++) {
 			if (app.data[i].type == 'SR') {
 				sr = app.data[i].value;
@@ -445,19 +445,23 @@ function drawSuccessRate(ctx, successCount, failCount, x, y, outerRadius, innerR
 	
 	ctx.clearRect(240,0,400,160);
 	
-	ctx.beginPath();
-	ctx.moveTo(x, y);
-	ctx.arc(x, y, outerRadius, startAngle , angle);
-	ctx.closePath();
-	ctx.fillStyle = '#44cc44';
-	ctx.fill();
-		
-	ctx.beginPath();
-	ctx.moveTo(x, y);
-	ctx.arc(x, y, outerRadius, angle, startAngle);
-	ctx.closePath();
-	ctx.fillStyle = '#cc4444';
-	ctx.fill();
+	if (parseInt(successCount) > 0) {
+		ctx.beginPath();
+		ctx.moveTo(x, y);
+		ctx.arc(x, y, outerRadius, startAngle , angle);
+		ctx.closePath();
+		ctx.fillStyle = '#44cc44';
+		ctx.fill();
+	}
+	
+	if (parseInt(failCount) > 0) {	
+		ctx.beginPath();
+		ctx.moveTo(x, y);
+		ctx.arc(x, y, outerRadius, angle, startAngle);
+		ctx.closePath();
+		ctx.fillStyle = '#cc4444';
+		ctx.fill();
+	}
 			
 	ctx.globalCompositeOperation = 'destination-out';
 	ctx.beginPath();
