@@ -7,6 +7,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 
@@ -33,16 +34,26 @@ public class MonitorHttpServer {
             String path = t.getRequestURI().getPath();
             path = "/wwwroot/" + path.replace("/monitor/", "");
             System.out.println("PATH: " + path);
-            String response;
+            String response = null;
+            byte[] resp = null;
+            int len = 0;
 
             System.out.println("Calling JAR: ");
 
-            response = readFromJARFile(path);
+            if (path.contains("ico") || path.contains("png") || path.contains("ogg")){
+                resp = readFromJARFileBytes(path);
+                len = resp.length;
+            }
+            else {
+                response = readFromJARFile(path);
+                resp = response.getBytes();
+                len = response.length();
+            }
 
-            if(response != null){
-                t.sendResponseHeaders(200, response.length());
+            if(resp != null){
+                t.sendResponseHeaders(200, len);
                 OutputStream os = t.getResponseBody();
-                os.write(response.getBytes());
+                os.write(resp);
                 os.close();
             }
             else {
@@ -120,6 +131,20 @@ public class MonitorHttpServer {
                 e.printStackTrace();
             }
             return sb.toString();
+        }
+        public byte[] readFromJARFileBytes(String filename)
+
+        {
+            InputStream is = MyHandler.class.getResourceAsStream(filename);
+            byte[] res = null;
+            try {
+                res = IOUtils.toByteArray(is);
+                is.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return res;
         }
 
     }
