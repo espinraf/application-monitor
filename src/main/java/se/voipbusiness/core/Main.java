@@ -1,5 +1,10 @@
 package se.voipbusiness.core;
 
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonArray;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -11,6 +16,26 @@ import java.net.UnknownHostException;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
+
+        // Read Configuration
+        String jFile;
+        BufferedReader br = new BufferedReader(new FileReader("config/app-monitor.json"));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            jFile = sb.toString();
+        } finally {
+            br.close();
+        }
+
+        JsonArray jo = JsonArray.readFrom(jFile);
+        System.out.println(jo);
 
         // UDP Server, this could be replace with a TCP Server
         MonitorUDPServer s = new MonitorUDPServer();
@@ -28,6 +53,8 @@ public class Main {
         // Http Server, native in JDK7
         MonitorHttpServer ht = new MonitorHttpServer();
         try {
+            //Set config
+            ht.ja = jo;
             ht.init();
         } catch (Exception e) {
             e.printStackTrace();

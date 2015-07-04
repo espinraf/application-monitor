@@ -3,10 +3,9 @@ package se.voipbusiness.core;
 import java.io.*;
 import java.net.InetSocketAddress;
 
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.sun.net.httpserver.*;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -18,16 +17,36 @@ import java.io.IOException;
 public class MonitorHttpServer {
 
     public int httpPort = Integer.valueOf(System.getProperty("httpServer.port", "9000"));
+    public JsonArray ja;
 
     public  void init() throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(httpPort), 0);
-        server.createContext("/monitor", new MyHandler());
-        server.setExecutor(null); // creates a default executor
-        System.out.println("HTTP Server started on port: " + httpPort);
-        server.start();
-    }
+        HttpContext hc = server.createContext("/monitor", new MyHandler());
+        hc.setAuthenticator(new BasicAuthenticator("get") {
+                @Override
+                public boolean checkCredentials(String user, String pwd) {
+                    int s = ja.size();
+                    JsonObject jo = null;
+                    String juser;
+                    String jpasswd;
+                    for (int i = 0; i < s; i++) {
+                        jo = (JsonObject) ja.get(i).asObject();
+                        juser = jo.get("user").asString();
+                        jpasswd = jo.get("passwd").asString();
+                        if (user.equals(juser) && pwd.equals(jpasswd)){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+        );
+            server.setExecutor(null); // creates a default executor
+            System.out.println("HTTP Server started on port: "+httpPort);
+            server.start();
+        }
 
-    static class MyHandler implements HttpHandler {
+        static class MyHandler implements HttpHandler {
 
 
         public void handle(HttpExchange t) throws IOException {

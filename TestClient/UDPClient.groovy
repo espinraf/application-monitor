@@ -18,6 +18,7 @@ while (true){
 "Name" : "Customer",
 "Type" : "JMS",
 "Status" : "OK",
+"Role" : "admin",
 
 "data":
 [
