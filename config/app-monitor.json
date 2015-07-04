@@ -1,0 +1,12 @@
+[
+  {
+    "user":"admin",
+    "passwd":"passwd",
+    "role":"admin"
+  },
+  {
+    "user":"espinraf",
+    "passwd":"passwd",
+    "role":"developer"
+  }
+]
