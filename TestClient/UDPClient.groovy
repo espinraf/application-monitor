@@ -23,7 +23,7 @@ while (true){
 "data":
 [
 { "name" : "msgRecv", "value" : "1", "type" : "T" },
-{ "name": "msgSend", "value" : "5", "type" : "C" },
+{ "name": "msgSend", "value" : "5", "type" : "C" , "ttl" : "1h"},
 { "name": "Errors", "value" : "${rannum}", "type" : "V" },
 { "name": "ErrorXSLT", "value" : "true", "type" : "B" },
 { "name": "LastError", "value" : "NO ERRORS", "type" : "S" }

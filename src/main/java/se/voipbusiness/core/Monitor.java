@@ -36,17 +36,31 @@ public class Monitor {
 
     }
 
+    public void updateWebpage(){
+        String data ="";
+        ConcurrentNavigableMap map = mdb.getMonitorMap();
+        for(Object k   : map.keySet()){
+            JsonObject jo = (JsonObject)map.get(k);
+            data = jo.toString();
+            wsServer.sendToAll(data);
+        }
+
+    }
+
     public void logMsg(String msg) {
         String jm = "{\"Id\" : \"LOG\", \"Name\" : \"LOG\", \"Type\" : \"LOG\", \"Status\" : \"" + msg + "\"}";
         wsServer.sendToAll(jm);
     }
 
     public void routeToUdpServer(String data){
-        System.out.println("Monitor: " + data);
+        System.out.println("routeToUdpServer: " + data);
     }
 
-    public void routeToMonitorDBFromCron(String data){
-        System.out.println("Monitor: " + data);
+    public void routeToMonitorDBFromCron(String ttl){
+        logMsg("Reseting counters: " + ttl);
+        mdb.resetCounters(ttl);
+        logMsg("Updating counters: " + ttl);
+        updateWebpage();
     }
 
 }

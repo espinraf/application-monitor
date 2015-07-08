@@ -29,7 +29,7 @@ public class MonitorTTL {
                     .build();
             CronTrigger trigger0 = TriggerBuilder.newTrigger()
                     .withIdentity("triggerHour", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0 * * * ?"))
                     .build();
 
             job0.getJobDataMap().put("mon", mon);

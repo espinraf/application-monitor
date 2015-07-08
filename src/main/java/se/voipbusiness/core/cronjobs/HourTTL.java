@@ -12,8 +12,7 @@ public class HourTTL implements Job {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         JobKey jobKey = context.getJobDetail().getKey();
         Monitor mon = (Monitor) data.get("mon");
-        System.out.println("HourTTL says: " + jobKey + " executing at " + new Date());
-        mon.routeToMonitorDBFromCron("HourTTL");
-        //mon.checkUpdateTTL("1h");
+        System.out.println("HourTTL: " + jobKey + " executing at " + new Date());
+        mon.routeToMonitorDBFromCron("1h");
     }
 }

@@ -2,6 +2,7 @@ package se.voipbusiness.core;
 
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
@@ -194,4 +195,32 @@ public class MonitorDB {
 
     }
 
+    public void resetCounters(String ttl){
+
+        System.out.println("ttl: " + ttl);
+        ConcurrentNavigableMap map = monitorMap;
+        for(Object k   : map.keySet()){
+            JsonObject jodb = (JsonObject)map.get(k);
+
+            JsonArray joadb = jodb.get("data").asArray();
+            System.out.println("Data: " + joadb);
+            int s = joadb.size();
+            System.out.println("Size: " + s);
+            for(int j = 0 ; j < s ; j++){
+                JsonObject jo = joadb.get(j).asObject();
+                String type = jo.get("type").asString();
+                JsonValue ttldb = jo.get("ttl");
+
+                if ( ttldb != null) {
+                    // Reset counter
+                    if (type.equals("C") && ttl.equals(ttldb.asString())) {
+                        System.out.println("Type: " + type + " ttldb: " + ttldb);
+                        jo.set("value", "0");
+                    }
+                }
+            }
+
+        }
+        db.commit();
+    }
 }

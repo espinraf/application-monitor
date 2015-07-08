@@ -13,7 +13,7 @@ public class DayTTL implements Job {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         JobKey jobKey = context.getJobDetail().getKey();
         Monitor mon = (Monitor) data.get("mon");
-        System.out.println("DayTTL says: " + jobKey + " executing at " + new Date());
-        //mon.checkUpdateTTL("1d");
+        System.out.println("DayTTL: " + jobKey + " executing at " + new Date());
+        mon.routeToMonitorDBFromCron("1d");
     }
 }

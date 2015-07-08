@@ -13,7 +13,7 @@ public class MonthTTL implements Job {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         JobKey jobKey = context.getJobDetail().getKey();
         Monitor mon = (Monitor) data.get("mon");
-        System.out.println("MonthTTL says: " + jobKey + " executing at " + new Date());
-        //mon.checkUpdateTTL("1m");
+        System.out.println("MonthTTL: " + jobKey + " executing at " + new Date());
+        mon.routeToMonitorDBFromCron("1m");
     }
 }

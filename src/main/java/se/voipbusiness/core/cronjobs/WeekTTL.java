@@ -13,7 +13,7 @@ public class WeekTTL implements Job {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         JobKey jobKey = context.getJobDetail().getKey();
         Monitor mon = (Monitor) data.get("mon");
-        System.out.println("WeekTTL says: " + jobKey + " executing at " + new Date());
-        //mon.checkUpdateTTL("1w");
+        System.out.println("WeekTTL: " + jobKey + " executing at " + new Date());
+        mon.routeToMonitorDBFromCron("1w");
     }
 }
