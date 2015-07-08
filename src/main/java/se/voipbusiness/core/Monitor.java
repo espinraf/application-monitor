@@ -42,7 +42,11 @@ public class Monitor {
     }
 
     public void routeToUdpServer(String data){
-        System.out.println("Hola !");
+        System.out.println("Monitor: " + data);
+    }
+
+    public void routeToMonitorDBFromCron(String data){
+        System.out.println("Monitor: " + data);
     }
 
 }

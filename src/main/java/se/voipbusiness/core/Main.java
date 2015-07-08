@@ -71,5 +71,11 @@ public class Main {
         s.mon = mon;
         ws.mon = mon;
 
+        //Intilize Crons to reset counters
+        MonitorTTL ttl = new MonitorTTL();
+        ttl.mon = mon;
+        ttl.init();
+
+
     }
 }
