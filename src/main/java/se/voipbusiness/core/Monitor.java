@@ -57,9 +57,13 @@ public class Monitor {
     }
 
     public void routeToMonitorDBFromCron(String ttl){
-        logMsg("Reseting counters: " + ttl);
+        if(!ttl.equals("1h")) {
+            logMsg("Reseting counters: " + ttl);
+        }
         mdb.resetCounters(ttl);
-        logMsg("Updating counters: " + ttl);
+        if(!ttl.equals("1h")) {
+            logMsg("Updating counters: " + ttl);
+        }
         updateWebpage();
     }
 
