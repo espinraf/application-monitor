@@ -55,7 +55,7 @@ public class MonitorTTL {
                     .build();
             CronTrigger trigger2 = TriggerBuilder.newTrigger()
                     .withIdentity("triggerWeek", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 20 * ? * SUN"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 20 0 ? * SUN"))
                     .build();
 
             job2.getJobDataMap().put("mon", mon);
@@ -68,7 +68,7 @@ public class MonitorTTL {
                     .build();
             CronTrigger trigger3 = TriggerBuilder.newTrigger()
                     .withIdentity("triggerMonth", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 30 * L * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0 30 0 L * ?"))
                     .build();
 
             job3.getJobDataMap().put("mon", mon);

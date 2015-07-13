@@ -3,6 +3,7 @@ package se.voipbusiness.core;
 import com.eclipsesource.json.JsonObject;
 import org.java_websocket.WebSocket;
 
+import java.util.Date;
 import java.util.concurrent.ConcurrentNavigableMap;
 
 /**
@@ -57,12 +58,13 @@ public class Monitor {
     }
 
     public void routeToMonitorDBFromCron(String ttl){
+        Date d = new Date();
         if(!ttl.equals("1h")) {
-            logMsg("Reseting counters: " + ttl);
+            logMsg("Reseting counters: " + ttl + " Time: " + d.toString());
         }
         mdb.resetCounters(ttl);
         if(!ttl.equals("1h")) {
-            logMsg("Updating counters: " + ttl);
+            logMsg("Updating counters: " + ttl + " Time: " + d.toString());
         }
         updateWebpage();
     }
