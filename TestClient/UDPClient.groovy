@@ -1,3 +1,6 @@
+import java.lang.management.ManagementFactory
+
+runtime = Runtime.getRuntime()
 
 addr = InetAddress.getByName("localhost")
 port = 9090
@@ -11,6 +14,10 @@ while (true){
     println "Sending data.......... "
 
     for (int i = 0 ; i < 10 ; i++) {
+        maxmem = (runtime.maxMemory())/1024
+        allocmem = (runtime.totalMemory())/1024
+        freemem = (runtime.freeMemory())/1024
+        pid = ManagementFactory.getRuntimeMXBean().getName()
         rannum = Math.abs(new Random().nextInt()) % 20 + 1
         data1 = """
 {
@@ -26,7 +33,11 @@ while (true){
 { "name": "msgSend", "value" : "5", "type" : "C" , "ttl" : "1h"},
 { "name": "Errors", "value" : "${rannum}", "type" : "V" },
 { "name": "ErrorXSLT", "value" : "true", "type" : "B" },
-{ "name": "LastError", "value" : "NO ERRORS", "type" : "S" }
+{ "name": "LastError", "value" : "NO ERRORS", "type" : "S" },
+{ "name": "MaxMemKB", "value" : "${maxmem}", "type" : "V" },
+{ "name": "AllocmemKB", "value" : "${allocmem}", "type" : "V" },
+{ "name": "FreeMemKB", "value" : "${freemem}", "type" : "V" },
+{ "name": "PID", "value" : "${pid}", "type" : "S" }
 ]
 }
 """
