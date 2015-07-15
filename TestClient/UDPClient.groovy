@@ -1,6 +1,7 @@
 import java.lang.management.ManagementFactory
 
 runtime = Runtime.getRuntime()
+jvmVer = System.getProperty("java.version")
 
 addr = InetAddress.getByName("localhost")
 port = 9090
@@ -34,6 +35,7 @@ while (true){
 { "name": "Errors", "value" : "${rannum}", "type" : "V" },
 { "name": "ErrorXSLT", "value" : "true", "type" : "B" },
 { "name": "LastError", "value" : "NO ERRORS", "type" : "S" },
+{ "name": "Java Version", "value" : "${jvmVer}", "type" : "S" },
 { "name": "MaxMemKB", "value" : "${maxmem}", "type" : "V" },
 { "name": "AllocmemKB", "value" : "${allocmem}", "type" : "V" },
 { "name": "FreeMemKB", "value" : "${freemem}", "type" : "V" },
