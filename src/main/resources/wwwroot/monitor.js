@@ -209,7 +209,7 @@ function checkPropertiesRanges(app) {
 		} else if (app.data[i].type == 'S') {
 			var pattern = app.ranges[app.Id + '-pattern-' + app.data[i].name];
 			
-			if (pattern != null && pattern.length > 0 && app.data[i].value.indexOf(pattern) > -1) {
+			if (pattern != null && pattern.length > 0 && app.data[i].value.match(new RegExp(pattern, 'i'))) {
 				app.Status = 'NOK'
 				break;
 			}
@@ -288,7 +288,7 @@ function replacePropertyTable(app) {
 			td = createElement('td', null, 'propertiesvalue');
 			td.colSpan = 2;
 			input = createElement('input', app.Id + '-pattern-' + app.data[i].name, 'properties');
-			input.title = 'Pattern';
+			input.title = 'Pattern (regex)';
 			if (app.ranges) {
 				if (app.ranges[app.Id + '-pattern-' + app.data[i].name]) {
 					input.value = app.ranges[app.Id + '-pattern-' + app.data[i].name]
