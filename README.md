@@ -16,25 +16,26 @@ Send data to Application Monitor via UDP Server in JSON format described below.
 * HTTP Server, default port 9000
 
 ## JSON Format
-````
-{
-//MANDATORY FROM HERE
-"Id" : "i001", 
-"Name" : "Customer",
-"Type" : "JMS",
-"Status" : "OK",
 
-//DATA TO MONITOR "OPTIONAL" FROM HERE
-"data":
-[
-{ "name" : "msgRecv", "value" : "1", "type" : "T" },
-{ "name": "msgSend", "value" : "5", "type" : "C" },
-{ "name": "Errors", "value" : "${rannum}", "type" : "V" },
-{ "name": "ErrorXSLT", "value" : "true", "type" : "B" },
-{ "name": "LastError", "value" : "NO ERRORS", "type" : "S" }
-]
-}
-````
+    {
+    //MANDATORY FROM HERE
+    "Id" : "i001", 
+    "Name" : "Customer",
+    "Type" : "JMS",
+    "Status" : "OK",
+    
+    //DATA TO MONITOR "OPTIONAL" FROM HERE
+    "data":
+    [
+    { "name" : "msgRecv", "value" : "1", "type" : "T" },
+    { "name": "msgSend", "value" : "5", "type" : "C" },
+    { "name": "Errors", "value" : "${rannum}", "type" : "V" },
+    { "name": "ErrorXSLT", "value" : "true", "type" : "B" },
+    { "name": "LastError", "value" : "NO ERRORS", "type" : "S" }
+    ]
+    }
+
+
 
 Type | Description 
 -----|-------------
@@ -42,6 +43,26 @@ C | Counter
 V | Value
 T | TPS
 S | String
+
+
+##Heartbeat JSON Format
+
+    {
+    //MANDATORY
+    "AppId" : "app01",
+    "AppName" : "BankID Integration",
+    // Seconds Time To Wait 
+    "ttw" : "60" 
+    
+    }
+    
+##Heartbeat JSON Format to Webpage
+
+    {
+    "AppId" : "app01",
+    "AppName" : "BankID Integration",
+    "Status : "OK" / "NOK"    
+    }
 
 ##Run from Gradle
 

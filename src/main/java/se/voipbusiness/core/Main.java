@@ -76,6 +76,11 @@ public class Main {
         ttl.mon = mon;
         ttl.init();
 
+        //Initialize Ping (Heartbeat)
+        MonitorPing mp = new MonitorPing();
+        mp.mon = mon;
+        mon.mp = mp;
+
 
     }
 }

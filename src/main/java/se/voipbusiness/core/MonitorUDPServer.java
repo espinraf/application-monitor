@@ -1,5 +1,9 @@
 package se.voipbusiness.core;
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
+
 import java.io.*;
 import java.net.*;
 
@@ -42,12 +46,33 @@ public class MonitorUDPServer extends Thread{
                 System.out.println ("From: " + IPAddress + ":" + port);
                 System.out.println ("Message: " + sentence);
 
-                mon.routeToWsServer(sentence);
+                JsonObject jo = JsonObject.readFrom(sentence);
+                JsonValue id = jo.get("Id");
+                JsonValue joa = jo.get("data");
+
+
+                JsonValue appId = jo.get("AppId");
+                JsonValue appName =  jo.get("AppName");
+                JsonValue ttwS = jo.get("ttw");
+
+
+                if ( (id != null) && (joa != null)) {
+                    mon.routeToWsServer(sentence);
+                }
+                else if ((appId != null) && (ttwS != null)){
+                    long ttw = Long.parseLong(ttwS.asString());
+                    System.out.println("Sending to Monitor");
+                    mon.routeToMonitorPing(appId.asString(), appName.asString(), ttw);
+                }
+                else {
+                    mon.logMsg("Unknown message received from: " + IPAddress + ":" + port);
+                }
 
             }
 
         }
         catch (Exception ex) {
+            ex.printStackTrace();
             if (mon != null) {
                 mon.logMsg("UDP Server Error: \n");
                 mon.logMsg(ex.getMessage());

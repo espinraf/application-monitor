@@ -2,6 +2,7 @@ package se.voipbusiness.core;
 
 import com.eclipsesource.json.JsonObject;
 import org.java_websocket.WebSocket;
+import se.voipbusiness.core.ping.MonitorPingTimer;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -13,6 +14,7 @@ public class Monitor {
     public MonitorWebSocket wsServer = null;
     public MonitorUDPServer udpServer = null;
     public MonitorDB mdb = null;
+    public MonitorPing mp = null;
 
     public void init(MonitorWebSocket ws, MonitorUDPServer udp, MonitorDB db){
         this.wsServer = ws;
@@ -67,6 +69,18 @@ public class Monitor {
             logMsg("Updating counters: " + ttl + " Time: " + d.toString());
         }
         updateWebpage();
+    }
+
+    public void routeToMonitorPing(String appId, String appName, long ttw){
+        mp.pingReceived(appId, appName, ttw);
+    }
+
+    public void sendAppDown(String appId){
+        MonitorPingTimer mpt = (MonitorPingTimer) mp.apps.get(appId);
+        mpt.timer.cancel();
+        mp.removeApp(appId);
+        wsServer.sendToAll("{\"AppId\" : \""  + mpt.appId + "\", \"AppName\" : \"" + mpt.appName +  "\", \"Status\" : \"NOK\" }");
+        logMsg("Application DOWN: " + mpt.appId + " - " + mpt.appName);
     }
 
 }
