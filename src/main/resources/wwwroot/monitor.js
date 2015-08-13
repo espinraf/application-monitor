@@ -7,6 +7,8 @@ var logArray = [];
 
 var playAlarm = false;
 
+var heartbeats = [];
+
 function connect() {
 	var host = document.location.hostname;
 	if (!host) {
@@ -26,6 +28,8 @@ function connect() {
 		var app = JSON.parse(event.data);
 		if (app.Id == 'LOG') {
 			replaceLogger(app);
+		} else if (app.AppId != null) {
+			updateHeartbeat(app);
 		} else {
 			createOrUpdateWidget(merge(app));
 			if (selectedApp) {
@@ -221,7 +225,7 @@ function checkPropertiesRanges(app) {
 
 function replacePropertyTable(app) {
 	
-	var table = createElement('table', null,    'properties');
+	var table = createElement('table', 'properties',    'properties');
 	var tr    = createElement(   'tr');
 	var top   = createElement(   'th', null, 'propertiestop');
 	top.colSpan   = '5';
@@ -310,7 +314,7 @@ function replacePropertyTable(app) {
 	}
 	
 	// replace existing table
-	var existingTable = document.getElementsByClassName('properties')[0];
+	var existingTable = document.getElementById('properties');
 	existingTable.parentNode.replaceChild(table, existingTable);
 }
 
@@ -330,7 +334,47 @@ function replaceLogger(app) {
 		entries.appendChild(entry);
 	}
 }
+
+function updateHeartbeat(app) {
+	var found = false;
+	for (var i = 0; i < heartbeats.length; i++) {
+		if (heartbeats[i].AppId == app.AppId) {
+			heartbeats[i].Status = app.Status;
+			found = true;
+		}
+	}
+	if (!found) {
+		heartbeats.push(app);
+	}
 	
+	var table = createElement('table', 'heartbeat', 'heartbeat');
+	var tr    = createElement(   'tr');
+	var top   = createElement(   'th', null, 'propertiestop');
+	top.colSpan = 2;
+	top.innerHTML = 'Heartbeat';
+	tr.appendChild(top);
+	table.appendChild(tr);
+	
+	var td;
+	for (var i = 0; i < heartbeats.length; i++) {
+		tr = createElement('tr');
+		td = createElement('td', null, 'heartbeatname');
+		td.innerHTML = heartbeats[i].AppName;
+		tr.appendChild(td);
+		if (heartbeats[i].Status == 'OK') {
+			td = createElement('td', null, 'heartbeatok');
+		} else {
+			td = createElement('td', null, 'heartbeatnok');
+		}
+		td.innerHTML = heartbeats[i].Status;
+		tr.appendChild(td);
+		table.appendChild(tr);
+	}
+	
+	var existingTable = document.getElementById('heartbeat');
+	existingTable.parentNode.replaceChild(table, existingTable);
+}
+
 function select(element) {
 	
 	var widgets = document.getElementsByClassName('ws');

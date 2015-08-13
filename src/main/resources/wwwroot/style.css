@@ -2,17 +2,18 @@ body {
 	margin: 0; background-color: #aaaaaa; padding:0
 }
 
-div.top { background-color: black; font-family: sans-serif; font-size: 12pt; color: white; height: 40px; position: fixed; width : 100%; z-index: 2; }
+div.top { background-color: black; font-family: sans-serif; font-size: 12pt; color: white; height: 42px; position: fixed; width : 100%; z-index: 2; }
 
-div.topl { font-size: 8pt; text-align: left; color: white; float:left; width: 30%; line-height: 40px; }
+div.topl { font-size: 8pt; text-align: left; color: white; float:left; width: 30%; line-height: 42px; }
 div.topc { float: left; width: 40%;  text-align: center; line-height: 40px; font-weight: bold}
-div.topr { font-size: 8pt; text-align: left; color: white; float:right; width: 30%; line-height: 40px; }
+div.topr { font-size: 8pt; text-align: left; color: white; float:right; width: 30%; line-height: 42px; }
 
 p.hoy = {margin: 0 }
 
 
-div.l { background-color: #aaaaaa;  float: left; width: 75%; padding-bottom: 8px; margin-top: 40px;}
-div.r { background-color: #aaaaaa; float: right; width: 25%; margin-top: 40px; position: fixed; right : 0px}
+div.l { background-color: #aaaaaa;  float: left; width: calc(100% - 524px); padding-bottom: 8px; margin-top: 42px;}
+div.r { background-color: #aaaaaa; float: right; width: 320px; margin-top: 42px; position: fixed; right : 196px}
+div.hb { background-color: #aaaaaa; float: right; width: 188px; margin-top: 42px; position: fixed; right : 0px} 
 div.w { 
 	background-color: white;
 	float: left; width: 240px; height: 160px; margin: 8px 0px 0px 8px; 
@@ -86,6 +87,16 @@ table.properties {
 	width: 100%;
 	margin: 8px 0px;
 }
+
+table.heartbeat {
+	font-family: sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	margin: 8px 0px;
+}
+
+
+
 th.properties { border: 0; background-color: gray; font-weight: bold; color: #ffffff; padding: 8px; font-size: 8pt; text-align: left; }
 th.propertiestop { background-color: #ffffff; color: black; text-align: center; padding: 8px; font-size: 8pt; font-weight: normal}
 td.properties { background-color: #999999; border: 0; padding: 8px; font-size: 8pt; font-weight: bold}
@@ -93,3 +104,9 @@ td.propertiesvalue { background-color: #cccccc; border: 0; padding: 8px; font-si
 input.properties { font-size: 8pt; border: 0px; width: 100%}
 div.propertiescheck { border: 2px solid gray; width: 8px; height: 8px }
 div.propertiescheckselected { border: 2px solid gray; width: 8px; height: 8px; background-color: #ffffff }
+
+td.heartbeatname { background-color: #cccccc; border: 0; padding: 8px; font-size: 8pt;  }
+td.heartbeatok { background-color: #cccccc; border: 0; padding: 8px; font-size: 8pt;  font-weight: bold; color: #00aa00 }
+td.heartbeatnok { background-color: #cccccc; border: 0; padding: 8px; font-size: 8pt; font-weight: bold; color: #aa0000}
+
+
