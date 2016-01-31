@@ -5,13 +5,14 @@ class TimerTaskExample extends TimerTask {
     def DatagramSocket socC
     def addrC = InetAddress.getByName("localhost")
     def portC = 9090
+    def data1 = ""
 
-    public TimerTaskExample(DatagramSocket soc){
+    public TimerTaskExample(DatagramSocket soc, String msg){
         socC = soc
+        data1 = msg
     }
     public void run() {
-        println "Sending Hearbeat..."
-        def data1 = """ {"AppId" : "app-001", "AppName" : "UDPClientHB.groovy", "ttw": "60000" }  """
+        println "Sending Hearbeat... ${data1}"
         def data = data1.bytes
         def packet = new DatagramPacket(data, data.length, addrC, portC)
         socC.send(packet)
@@ -30,7 +31,10 @@ def socket = new DatagramSocket()
 int delay = 10000   // delay for 5 sec.
 int period = 50000  // repeat every sec.
 Timer timer = new Timer()
-timer.scheduleAtFixedRate(new TimerTaskExample(socket), delay, period)
+def msgT = """ {"AppId" : "app-001", "AppName" : "UDPClientHB.groovy", "ttw": "60000" }  """
+timer.scheduleAtFixedRate(new TimerTaskExample(socket, msgT), delay, period)
+msgT = """ {"AppId" : "app-002", "AppName" : "Fake_app", "ttw": "120000" }  """
+timer.scheduleAtFixedRate(new TimerTaskExample(socket, msgT), delay, 110000)
 
 
 def rannum = 1;
