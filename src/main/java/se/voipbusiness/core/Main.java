@@ -41,6 +41,10 @@ public class Main {
         MonitorUDPServer s = new MonitorUDPServer();
         s.start();
 
+        // Log4j2 UDP Server, this could be replace with a TCP Server
+        MonitorLog4J2UdpServer l = new MonitorLog4J2UdpServer();
+        l.start();
+
         // Websocket server, https://github.com/TooTallNate/Java-WebSocket
         MonitorWebSocket ws = null;
         try {
@@ -69,6 +73,7 @@ public class Main {
         Monitor mon = new Monitor();
         mon.init(ws, s, mdb);
         s.mon = mon;
+        l.mon = mon;
         ws.mon = mon;
 
         //Intilize Crons to reset counters
