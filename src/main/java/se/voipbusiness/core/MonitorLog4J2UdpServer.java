@@ -10,6 +10,7 @@ import java.net.SocketException;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
 
 /**
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.core.LogEvent;
 public class MonitorLog4J2UdpServer extends Thread {
 
     public int log4j2UdpPort = Integer.valueOf(System.getProperty("log4j2UdpServer.port", "55000"));
+    final Level MONITOR = Level.forName("MONITOR", 550);
     public Monitor mon = null;
     DatagramSocket serverSocket = null ;
     ObjectInputStream obj = null;

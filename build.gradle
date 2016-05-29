@@ -4,7 +4,7 @@ apply plugin:'application'
 
 mainClassName = "se.voipbusiness.core.Main"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
@@ -22,6 +22,9 @@ dependencies {
 
     compile 'org.apache.logging.log4j:log4j-api:2.5'
     compile 'org.apache.logging.log4j:log4j-core:2.5'
+
+    compile 'io.advantageous.qbit:qbit-admin:1.6.0.RELEASE'
+    compile 'io.advantageous.qbit:qbit-vertx:1.6.0.RELEASE'
 }
 
 jar {
