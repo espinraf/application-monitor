@@ -97,12 +97,12 @@ $ java -jar build/libs/application-monitor-all-1.0.jar
 ```
 
  $ java -DudpServer.port=8080 -DhttpServer.port=8000 -jar build/libs/application-monitor-all-1.0.jar
- 
+
 ```
 
  ## Access Web page
 
- http://localhost:9000/monitor/index.hmtl
+ http://localhost:9000/monitor/index.html 
 
  ## Send test data
 
