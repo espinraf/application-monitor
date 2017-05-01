@@ -19,11 +19,11 @@ Send data to Application Monitor via UDP Server in JSON format described below.
 
     {
     //MANDATORY FROM HERE
-    "Id" : "i001", 
+    "Id" : "i001",
     "Name" : "Customer",
     "Type" : "JMS",
     "Status" : "OK",
-    
+
     //DATA TO MONITOR "OPTIONAL" FROM HERE
     "data":
     [
@@ -37,7 +37,7 @@ Send data to Application Monitor via UDP Server in JSON format described below.
 
 
 
-Type | Description 
+Type | Description
 -----|-------------
 C | Counter
 V | Value
@@ -45,18 +45,19 @@ T | TPS
 S | String
 
 
-##Heartbeat JSON Format
+
+## Heartbeat JSON Format
 
     {
     //MANDATORY
     "AppId" : "app01",
     "AppName" : "BankID Integration",
-    // Seconds Time To Wait 
-    "ttw" : "60" 
-    
+    // Seconds Time To Wait
+    "ttw" : "60"
+
     }
-    
-##Heartbeat JSON Format to Webpage
+
+## Heartbeat JSON Format to Webpage
 
     {
     "AppId" : "app01",
@@ -64,22 +65,49 @@ S | String
     "Status : "OK" / "NOK"    
     }
 
-##Run from Gradle
+## Run from Gradle
 
-###With default ports
+### With default ports
+
+```
 gradle run
+```
+### Overriding ports
 
-###Overriding ports
-gradle run -DudpServer.port=8080 -DhttpServer.port=8000
+```
+$ gradle run -DudpServer.port=8080 -DhttpServer.port=8000
+```
 
-##Compile Fat jar
+## Compile Fat jar
 
-gradle fatJar
+```
+$ gradle fatJar
+```
 
-##Run Fat jar
+## Run Fat jar
 
-###With default ports
-java -jar build/libs/application-monitor-all-1.0.jar
+### With default ports
+
+```
+$ java -jar build/libs/application-monitor-all-1.0.jar
+```
+
+### Overriding ports
+
+```
+
+ $ java -DudpServer.port=8080 -DhttpServer.port=8000 -jar build/libs/application-monitor-all-1.0.jar
  
-###Overriding ports
- java -DudpServer.port=8080 -DhttpServer.port=8000 -jar build/libs/application-monitor-all-1.0.jar
+```
+
+ ## Access Web page
+
+ http://localhost:9000/monitor/index.hmtl
+
+ ## Send test data
+
+```
+ $ cd TestClient
+
+ $ groovy UDPClientHB.groovy
+```
