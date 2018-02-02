@@ -4,11 +4,14 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import java.util.TimerTask;
 import java.util.Date;
+
+import org.springframework.stereotype.Component;
 import se.voipbusiness.core.cronjobs.*;
 
 /**
  * Created by espinraf on 20/06/15.
  */
+@Component
 public class MonitorTTL {
 
     public Monitor mon = null;

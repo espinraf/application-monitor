@@ -1,5 +1,6 @@
 package se.voipbusiness.core;
 
+import org.springframework.stereotype.Component;
 import se.voipbusiness.core.ping.MonitorPingTimer;
 
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 /**
  * Created by espinraf on 04/08/15.
  */
+@Component
 public class MonitorPing {
 
     public Monitor mon;

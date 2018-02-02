@@ -5,6 +5,7 @@ import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
+import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
  *
  * In-memory DB using MapDB
  */
+@Component
 public class MonitorDB {
 
     DB db;

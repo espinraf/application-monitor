@@ -2,6 +2,9 @@ package se.voipbusiness.core;
 
 import com.eclipsesource.json.JsonObject;
 import org.java_websocket.WebSocket;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
 import se.voipbusiness.core.ping.MonitorPingTimer;
 
 import java.util.Date;
@@ -10,17 +13,16 @@ import java.util.concurrent.ConcurrentNavigableMap;
 /**
  * Created by espinraf on 26/05/15.
  */
+@Component
 public class Monitor {
-    public MonitorWebSocket wsServer = null;
-    public MonitorUDPServer udpServer = null;
-    public MonitorDB mdb = null;
-    public MonitorPing mp = null;
-
-    public void init(MonitorWebSocket ws, MonitorUDPServer udp, MonitorDB db){
-        this.wsServer = ws;
-        this.udpServer = udp;
-        this.mdb = db;
-    }
+    @Autowired
+    public MonitorWebSocketHandler wsServer;
+    @Autowired
+    public MonitorUDPServer udpServer;
+    @Autowired
+    public MonitorDB mdb;
+    @Autowired
+    public MonitorPing mp;
 
     public void routeToWsServer(String data){
         String updateData = mdb.updateApp(data);
@@ -28,13 +30,13 @@ public class Monitor {
         wsServer.sendToAll(updateData);
     }
 
-    public void updateWebpage(WebSocket con){
+    public void updateWebpage(WebSocketSession ses){
         String data ="";
         ConcurrentNavigableMap map = mdb.getMonitorMap();
         for(Object k   : map.keySet()){
             JsonObject jo = (JsonObject)map.get(k);
             data = jo.toString();
-            wsServer.updateWebPage(con, data );
+            wsServer.updateWebPage(ses, data );
         }
 
     }
