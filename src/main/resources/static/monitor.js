@@ -15,7 +15,7 @@ function connect() {
 		host = 'localhost';
 	}
 	if ('WebSocket' in window) {
-		socket = new WebSocket('ws://' + host + ':9099');;
+		socket = new WebSocket('ws://' + host + ':8080/wscomm');;
 	} else if ('MozWebSocket' in window) {
 		socket = new WebSocket('');
 	} else {

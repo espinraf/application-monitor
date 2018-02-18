@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -23,7 +25,7 @@ public class MonitorWebSocketHandler extends TextWebSocketHandler {
     private HashMap<String, WebSocketSession> sesMap = new HashMap<String, WebSocketSession>();
 
     @Autowired
-    public Monitor mon = null;
+    public Monitor mon;
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
@@ -45,7 +47,7 @@ public class MonitorWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sesMap.put(session.getId(), session);
-        mon.updateWebpage(session);
+        //mon.updateWebpage(session);
         mon.logMsg(session.getRemoteAddress().getAddress().getHostAddress() + " New connection established !");
 
         log.info("Connected ... " + session.getId());
