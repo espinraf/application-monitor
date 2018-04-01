@@ -1,5 +1,8 @@
 package se.voipbusiness.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import se.voipbusiness.core.ping.MonitorPingTimer;
 
@@ -8,10 +11,13 @@ import java.util.HashMap;
 /**
  * Created by espinraf on 04/08/15.
  */
+
 @Component
 public class MonitorPing {
 
+    @Autowired
     public Monitor mon;
+
     public HashMap<String, Object> apps = new HashMap<String, Object>();
     public MonitorPingTimer mpt;
 

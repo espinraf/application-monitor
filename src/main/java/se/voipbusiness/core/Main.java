@@ -3,8 +3,15 @@ package se.voipbusiness.core;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,6 +22,7 @@ import java.net.UnknownHostException;
  *
  * Main calss which starts Monitor Server
  */
+
 @Component
 public class Main {
 
@@ -44,8 +52,8 @@ public class Main {
     @Autowired
     MonitorPing mp;
 
-
-    void main(String[] args) throws IOException, InterruptedException {
+@PostConstruct
+    void mainStart() throws IOException, InterruptedException {
 
         // Read Configuration
         String jFile;
@@ -67,47 +75,18 @@ public class Main {
         JsonArray jo = JsonArray.readFrom(jFile);
         System.out.println(jo);
 
-        s.start();
-
-        l.start();
+        System.out.println(s);
 
 
-       /* try {
-            ws = new MonitorWebSocket(9099);
-            ws.startDebug();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }*/
+    }
 
-        // Http Server, native in JDK7
-        /*
-        MonitorHttpServer ht = new MonitorHttpServer();
-        try {
-            //Set config
-            //ht.ja = jo;
-            //ht.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+    @EventListener(ApplicationReadyEvent.class)
+    public void doSomethingAfterStartup() {
+        Thread t1 = new Thread(s);
+        t1.start();
 
-
-        mdb.init();
-
-        // This class orchestate all server mentioned above.
-        Monitor mon = new Monitor();
-       // mon.init(ws, s, mdb);
-        s.mon = mon;
-        l.mon = mon;
-
-
-        ttl.mon = mon;
-        ttl.init();
-
-        //Initialize Ping (Heartbeat)
-        MonitorPing mp = new MonitorPing();
-        mp.mon = mon;
-        mon.mp = mp;
-
+        Thread t2 = new Thread(l);
+        t2.start();
 
     }
 }

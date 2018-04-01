@@ -3,6 +3,9 @@ package se.voipbusiness.core;
 import com.eclipsesource.json.JsonObject;
 import org.java_websocket.WebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 import se.voipbusiness.core.ping.MonitorPingTimer;
@@ -13,6 +16,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
 /**
  * Created by espinraf on 26/05/15.
  */
+
 @Component
 public class Monitor {
     @Autowired

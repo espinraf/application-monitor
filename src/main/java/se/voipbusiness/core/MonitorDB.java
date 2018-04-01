@@ -5,8 +5,11 @@ import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.text.DecimalFormat;
 import java.util.concurrent.ConcurrentNavigableMap;
 
@@ -15,6 +18,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
  *
  * In-memory DB using MapDB
  */
+
 @Component
 public class MonitorDB {
 
@@ -25,6 +29,7 @@ public class MonitorDB {
 
 
     // Initialize  Monitor DB
+    @PostConstruct
     public void init(){
 
         db = DBMaker.newMemoryDB().make();

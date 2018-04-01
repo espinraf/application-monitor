@@ -3,6 +3,8 @@ package se.voipbusiness.core;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -11,13 +13,15 @@ import java.net.*;
 /**
  * Created by espinraf on 18/05/15.
  */
-@Component
-public class MonitorUDPServer extends Thread{
 
-    public Monitor mon = null;
+@Component
+public class MonitorUDPServer implements Runnable{
+
+    @Autowired
+    public Monitor mon;
+
     public int udpPort = Integer.valueOf(System.getProperty("udpServer.port", "9090"));
 
-    @Override
     public void run(){
         try
         {

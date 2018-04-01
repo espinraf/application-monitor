@@ -5,20 +5,30 @@ import org.quartz.impl.StdSchedulerFactory;
 import java.util.TimerTask;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import se.voipbusiness.core.cronjobs.*;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by espinraf on 20/06/15.
  */
+
 @Component
 public class MonitorTTL {
 
+    @Autowired
     public Monitor mon = null;
 
     SchedulerFactory sf;
     Scheduler sched;
 
+    @Async
+    @PostConstruct
     public void init() {
         sf = new StdSchedulerFactory();
 

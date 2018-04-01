@@ -56,7 +56,9 @@ public class MonitorWebSocketHandler extends TextWebSocketHandler {
     public void sendToAll(String msg){
         for (WebSocketSession ses : sesMap.values()){
             try {
-                ses.sendMessage(new TextMessage(msg));
+                if(ses.isOpen()) {
+                    ses.sendMessage(new TextMessage(msg));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
