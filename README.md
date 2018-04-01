@@ -81,13 +81,13 @@ gradle run
 $ gradle run -DudpServer.port=8080 -DhttpServer.port=8000
 ```
 
-## Compile Fat jar
+## Compile Spring Boot Fat jar
 
 ```
 $ gradle clean build
 ```
 
-## Run Fat jar
+## Run Spring Boot Fat jar
 
 ### With default ports
 
