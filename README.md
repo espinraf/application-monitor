@@ -99,7 +99,7 @@ $ java -jar build/libs/application-monitor-1.0.jar
 
 ```
 
- $ java -DudpServer.port=8080 -DhttpServer.port=8000 -jar build/libs/application-monitor-all-1.0.jar
+ $ java -DudpServer.port=8080 -DhttpServer.port=8000 -jar build/libs/application-monitor-1.0.jar
 
 ```
 
