@@ -84,7 +84,7 @@ $ gradle run -DudpServer.port=8080 -DhttpServer.port=8000
 ## Compile Fat jar
 
 ```
-$ gradle fatJar
+$ gradle clean build
 ```
 
 ## Run Fat jar
@@ -92,7 +92,7 @@ $ gradle fatJar
 ### With default ports
 
 ```
-$ java -jar build/libs/application-monitor-all-1.0.jar
+$ java -jar build/libs/application-monitor-1.0.jar
 ```
 
 ### Overriding ports
