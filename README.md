@@ -16,7 +16,7 @@ Send data to Application Monitor via UDP Server in JSON format described below.
 ## Servers Ports
 
 * UDP Server, default port 9090
-* HTTP Server, default port 9000
+* HTTP Server, default port 8080
 
 ## JSON Format
 
@@ -78,8 +78,10 @@ gradle run
 ### Overriding ports
 
 ```
-$ gradle run -DudpServer.port=8080 -DhttpServer.port=8000
+$ gradle run -DudpServer.port=8080
 ```
+
+**To change HTTP port, update src/main/resources/application.properties**
 
 ## Compile Spring Boot Fat jar
 
@@ -99,13 +101,13 @@ $ java -jar build/libs/application-monitor-1.0.jar
 
 ```
 
- $ java -DudpServer.port=8080 -DhttpServer.port=8000 -jar build/libs/application-monitor-1.0.jar
+ $ java -DudpServer.port=8080  -jar build/libs/application-monitor-1.0.jar
 
 ```
 
  ## Access Web page
 
- http://localhost:9000/monitor/index.html 
+ http://localhost:8080/monitor/index.html 
 
  ## Send test data
 
