@@ -31,10 +31,12 @@ Send data to Application Monitor via UDP Server in JSON format described below.
     "data":
     [
     { "name" : "msgRecv", "value" : "1", "type" : "T" },
-    { "name": "msgSend", "value" : "5", "type" : "C" },
+    { "name": "msgSend", "value" : "5", "type" : "C" , "ttl" : "1h"},
     { "name": "Errors", "value" : "${rannum}", "type" : "V" },
     { "name": "ErrorXSLT", "value" : "true", "type" : "B" },
-    { "name": "LastError", "value" : "NO ERRORS", "type" : "S" }
+    { "name": "LastError", "value" : "NO ERRORS", "type" : "S" },
+    { "name" : "msgRecv", "value" : "11", "type" : "SR" },
+    { "name": "msgSend", "value" : "2", "type" : "FR" }
     ]
     }
 
@@ -42,14 +44,18 @@ Send data to Application Monitor via UDP Server in JSON format described below.
 
 Type | Description
 -----|-------------
-C | Counter
+C | Counter, add ttl : X h/m/s hour, min or sec to reset the counter.
 V | Value
 T | TPS
 S | String
+B | Boolean
+FR | Failed Rate, SUM(value)/n number of sent values.
+SR | Success Rate, SUM(value)/n number of sent values.
 
 
 
-## Heartbeat JSON Format
+
+## Heartbeat JSON Format to register application.
 
     {
     //MANDATORY
@@ -60,7 +66,7 @@ S | String
 
     }
 
-## Heartbeat JSON Format to Webpage
+## Heartbeat JSON Format to be sent to Web page.
 
     {
     "AppId" : "app01",
