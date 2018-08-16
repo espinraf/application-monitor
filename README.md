@@ -113,7 +113,7 @@ $ java -jar build/libs/application-monitor-1.0.jar
 
  ## Access Web page
 
- http://localhost:8080/monitor/index.html 
+ http://localhost:8080/
 
  ## Send test data
 
